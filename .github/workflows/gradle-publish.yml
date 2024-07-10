@@ -49,7 +49,7 @@ jobs:
            echo "GitHub SHA: $GITHUB_SHA"
   git_hub_parallel:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: build
     steps:
       - name: Dummy parallel run
         run: |

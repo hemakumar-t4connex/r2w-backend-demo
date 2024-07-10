@@ -32,18 +32,11 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-  deploy:
+  run_info:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: check out code
-        run: echo The username is ${{ inputs.username }}
-
-  run_info:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - name : Dump GitHub context
+      - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
@@ -58,6 +51,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
-      - name : Dummy parallel run
+      - name: Dummy parallel run
         run: |
           echo "Git hub parallel run"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: run_info
+    steps:
+      - name: check out code
+        run: echo The username is ${{ inputs.username }}

@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - master
+      - "*"
   pull_request:
     branches:
       - master
@@ -31,9 +32,33 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-  deploy:
+  run_info:
+    name: test
     runs-on: ubuntu-latest
     needs: build
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Show default environment variables
+        run: |
+          echo "The job_id is: $GITHUB_JOB"   # reference the default environment variables
+           echo "The id of this action is: $GITHUB_ACTION"   # reference the default environment variables
+           echo "The run id is: $GITHUB_RUN_ID"
+           echo "The GitHub Actor's username is: $GITHUB_ACTOR"
+           echo "GitHub SHA: $GITHUB_SHA"
+  git_hub_parallel:
+    name: test-2
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Dummy parallel run
+        run: |
+          echo "Git hub parallel run"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: run_info
     steps:
       - name: check out code
         run: echo The username is ${{ inputs.username }}

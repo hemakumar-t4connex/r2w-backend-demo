@@ -54,3 +54,9 @@ jobs:
            echo "The run id is: $GITHUB_RUN_ID"
            echo "The GitHub Actor's username is: $GITHUB_ACTOR"
            echo "GitHub SHA: $GITHUB_SHA"
+  git_hub_parallel:
+    runs-on: ubuntu-latest
+    steps:
+      - name : Dummy parallel run
+        run: |
+          echo "Git hub parallel run"

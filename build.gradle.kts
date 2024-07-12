@@ -35,9 +35,13 @@ tasks.withType<Test> {
 }
 
 publishing {
-	(publications) {
-		register("mavenJava", MavenPublication::class) {
-			from(components["java"])
+	repositories {
+		maven {
+			url = uri("https://t4connex-718666055015.d.codeartifact.eu-west-2.amazonaws.com/maven/r2w-backend-demo/")
+			credentials {
+				username = "aws"
+				password = System.getenv("CODEARTIFACT_AUTH_TOKEN")
+			}
 		}
 	}
 }
